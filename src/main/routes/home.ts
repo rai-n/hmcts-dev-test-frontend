@@ -4,13 +4,15 @@ import axios from 'axios';
 export default function (app: Application): void {
   app.get('/', async (req, res) => {
     try {
-      // An example of connecting to the backend (a starting point)
-      const response = await axios.get('http://localhost:4000/get-example-case');
-      console.log(response.data);
-      res.render('home', { "example": response.data });
+      const response = await axios.get('http://localhost:4000/v1/tasks?page=0&size=10');
+      res.render('home', {
+        tasks: response.data.data,
+        pageDetails: response.data.pageDetails,
+        links: response.data.links
+      });
     } catch (error) {
-      console.error('Error making request:', error);
-      res.render('home', {});
+      console.error('Error fetching tasks:', error);
+      res.render('home', { error: 'Failed to load tasks' });
     }
   });
 }
