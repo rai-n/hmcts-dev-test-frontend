@@ -1,6 +1,7 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% extends "template.njk" %}
 
@@ -44,7 +45,9 @@
             {% if task.links and task.links.delete %}
               {% if task.links and task.links.update %} | {% else %}<span style="color: #505a5f;"> | </span>{% endif %}
               <a href="/tasks/{{ task.id }}/delete" class="govuk-link" onclick="event.preventDefault(); if(confirm('Are you sure?')) { document.getElementById('delete-form-{{ task.id }}').submit(); }">Delete</a>
-              <form id="delete-form-{{ task.id }}" method="post" action="/tasks/{{ task.id }}/delete" style="display:none;"></form>
+              <form id="delete-form-{{ task.id }}" method="post" action="/tasks/{{ task.id }}/delete" style="display:none;">
+                {{ csrfProtection(csrfToken) }}
+              </form>
             {% else %}
               <span style="color: #505a5f;"> | Delete</span>
             {% endif %}
