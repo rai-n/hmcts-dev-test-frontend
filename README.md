@@ -11,6 +11,11 @@
 ### Edit Task
 ![Edit Task](./demo/Update%20task%20status.png)
 
+## Functional tests
+1) `yarn playwright install`
+2) `yarn start:dev`
+3) `yarn test:functional`
+
 ## Setup
 1) `yarn install`
 2) `yarn webpack`

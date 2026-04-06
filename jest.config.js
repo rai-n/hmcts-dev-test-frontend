@@ -4,11 +4,11 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   testEnvironment: 'node',
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
-  },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'src/test/tsconfig.json'
-    }
+    '^.+\\.ts?$': ['ts-jest', {
+      tsconfig: 'src/test/tsconfig.json',
+      diagnostics: {
+        ignoreCodes: [2593, 2304, 7016]
+      }
+    }],
   }
 };

@@ -78,9 +78,7 @@ export default function (app: Application): void {
         return res.status(404).render('not-found');
       }
       
-      const updateUrl = task.links?.update 
-        ? `http://localhost:4000${task.links.update}`
-        : `http://localhost:4000/v1/tasks/${req.params.id}`;
+      const updateUrl = `http://localhost:4000${task.links.update}`;
       
       // PATCH only sends status per API spec
       await axios.patch(updateUrl, { status });
@@ -113,9 +111,7 @@ export default function (app: Application): void {
         return res.status(404).render('not-found');
       }
       
-      const deleteUrl = task.links?.delete 
-        ? `http://localhost:4000${task.links.delete}`
-        : `http://localhost:4000/v1/tasks/${req.params.id}`;
+      const deleteUrl = `http://localhost:4000${task.links.delete}`;
       
       await axios.delete(deleteUrl);
       res.redirect('/tasks');

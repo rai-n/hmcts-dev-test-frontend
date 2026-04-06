@@ -3,7 +3,7 @@ import { config as testConfig } from './src/test/config';
 const { setHeadlessWhen } = require('@codeceptjs/configure');
 
 setHeadlessWhen(testConfig.TestHeadlessBrowser);
-export const config: CodeceptJS.MainConfig = {
+export const config: any = {
   name: 'functional',
   gherkin: testConfig.Gherkin,
   output: './functional-output/functional/reports',
