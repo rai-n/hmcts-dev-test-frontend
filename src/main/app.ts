@@ -29,9 +29,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// building buildi issue 
 glob
-  .sync('./routes/**/*.+(ts|js)', { cwd: __dirname })
-  .map(filename => require(filename))
+  .sync('src/main/routes/**/*.+(ts|js)')
+  .map(filename => require('./' + path.relative('src/main', filename)))
   .forEach(route => route.default(app));
 
 setupDev(app, developmentMode);
