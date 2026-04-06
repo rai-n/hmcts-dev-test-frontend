@@ -1,3 +1,4 @@
+/// <reference types='../functional/steps.d.ts' />
 import { config as testConfig } from '../config';
 
 const { I } = inject();

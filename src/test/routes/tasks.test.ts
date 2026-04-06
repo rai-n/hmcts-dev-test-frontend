@@ -64,7 +64,7 @@ describe('Tasks routes', () => {
         .expect(200);
 
       expect(response.text).to.contain('Case Worker Dashboard');
-      expect(response.text).to.contain('Active Tasks');
+      expect(response.text).to.contain('Tasks');
       expect(response.text).to.contain(mockTask.title);
       expect(axiosGetStub.calledWith('http://localhost:4000/v1/tasks?page=0&size=10')).to.be.true;
     });

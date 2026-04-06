@@ -11,7 +11,7 @@
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl">Case Worker Dashboard</h1>
       
-      <h2 class="govuk-heading-l">Active Tasks</h2>
+      <h2 class="govuk-heading-l">Create a new task</h2>
 
       {% if error %}
         <div class="govuk-error-summary" data-module="govuk-error-summary">
@@ -26,7 +26,7 @@
 
       <p class="govuk-body">
         {{ govukButton({
-          text: "Create new task",
+          text: "New Task",
           href: "/tasks/new",
           classes: "govuk-button--secondary"
         }) }}
