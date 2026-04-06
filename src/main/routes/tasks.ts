@@ -11,7 +11,8 @@ export default function (app: Application): void {
       res.render('tasks', {
         tasks: response.data.data,
         pageDetails: response.data.pageDetails,
-        links: response.data.links
+        links: response.data.links,
+        error: req.query.error
       });
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -109,6 +110,12 @@ export default function (app: Application): void {
       
       if (!task) {
         return res.status(404).render('not-found');
+      }
+      
+      // Check if task has a delete link (HATEOAS)
+      if (!task.links || !task.links.delete) {
+        console.error('Task does not have a delete link:', task);
+        return res.redirect(`/tasks?error=Cannot delete this task`);
       }
       
       const deleteUrl = `http://localhost:4000${task.links.delete}`;

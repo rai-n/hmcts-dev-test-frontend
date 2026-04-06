@@ -11,6 +11,9 @@
 ### Edit Task
 ![Edit Task](./demo/Update%20task%20status.png)
 
+### CSRF 
+![CSRF token in field](./demo/csrf.png)
+
 ## Functional tests
 1) `yarn playwright install`
 2) `yarn start:dev`
