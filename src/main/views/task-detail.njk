@@ -1,0 +1,72 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "template.njk" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Task Details</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "ID" },
+            value: { text: task.id }
+          },
+          {
+            key: { text: "Title" },
+            value: { text: task.title }
+          },
+          {
+            key: { text: "Description" },
+            value: { text: task.description or "No description" }
+          },
+          {
+            key: { text: "Status" },
+            value: { text: task.status }
+          },
+          {
+            key: { text: "Due Date" },
+            value: { text: task.dueDate | date("DD/MM/YYYY") }
+          },
+          {
+            key: { text: "Created At" },
+            value: { text: task.createdAt | date("DD/MM/YYYY HH:mm") }
+          },
+          {
+            key: { text: "Updated At" },
+            value: { text: task.updatedAt | date("DD/MM/YYYY HH:mm") }
+          }
+        ]
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Back to tasks",
+          href: "/tasks",
+          classes: "govuk-button--secondary"
+        }) }}
+
+        {% if task.links.update %}
+          {{ govukButton({
+            text: "Edit task",
+            href: "/tasks/" + task.id + "/edit"
+          }) }}
+        {% endif %}
+
+        {% if task.links.delete %}
+          <form method="post" action="/tasks/{{ task.id }}/delete" style="display:inline;">
+            {{ govukButton({
+              text: "Delete task",
+              classes: "govuk-button--warning",
+              attributes: {
+                onclick: "return confirm('Are you sure you want to delete this task?')"
+              }
+            }) }}
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

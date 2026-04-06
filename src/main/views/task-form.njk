@@ -1,0 +1,93 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% extends "template.njk" %}
+
+{% block pageTitle %}{% if isEdit %}Edit Task{% else %}Create Task{% endif %} - HMCTS Case Worker{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{% if isEdit %}Edit task{% else %}Create new task{% endif %}</h1>
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            { text: error }
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" action="{% if isEdit %}/tasks/{{ task.id }}{% else %}/tasks{% endif %}">
+        {% if isEdit %}
+          {# Display read-only fields using summary list pattern #}
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: { text: "Title" },
+                value: { text: task.title }
+              },
+              {
+                key: { text: "Description" },
+                value: { text: task.description or "Not provided" }
+              },
+              {
+                key: { text: "Due Date" },
+                value: { text: task.dueDate | date("DD/MM/YYYY") }
+              }
+            ]
+          }) }}
+          {# Only status is sent for update per API spec #}
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="status">Status</label>
+            <select class="govuk-select" id="status" name="status">
+              <option value="DRAFT"{% if task.status == 'DRAFT' %} selected{% endif %}>Draft</option>
+              <option value="SUBMITTED"{% if task.status == 'SUBMITTED' %} selected{% endif %}>Submitted</option>
+              <option value="PREPARING"{% if task.status == 'PREPARING' %} selected{% endif %}>Preparing</option>
+              <option value="BOOKED"{% if task.status == 'BOOKED' %} selected{% endif %}>Booked</option>
+              <option value="ADJOURNED"{% if task.status == 'ADJOURNED' %} selected{% endif %}>Adjourned</option>
+              <option value="DISPOSED"{% if task.status == 'DISPOSED' %} selected{% endif %}>Disposed</option>
+            </select>
+          </div>
+        {% else %}
+          {# Create mode - show editable input fields #}
+          {{ govukInput({
+            label: { text: "Title" },
+            id: "title",
+            name: "title",
+            value: task.title,
+            required: true,
+            maxlength: 100
+          }) }}
+
+          {{ govukTextarea({
+            label: { text: "Description" },
+            id: "description",
+            name: "description",
+            value: task.description,
+            maxlength: 2500
+          }) }}
+
+          {{ govukInput({
+            label: { text: "Due Date" },
+            hint: { text: "For example, 31 12 2025" },
+            id: "dueDate",
+            name: "dueDate",
+            type: "date",
+            value: task.dueDate | date("YYYY-MM-DD"),
+            required: true
+          }) }}
+        {% endif %}
+
+        {{ govukButton({
+          text: "Save task"
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}
