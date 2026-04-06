@@ -7,7 +7,11 @@
     "lib": ["es2018", "DOM"],
     "esModuleInterop": true,
     "module": "commonjs",
-    "strictNullChecks": true,
-    "types": ["codeceptjs"]
+    "strictNullChecks": false,
+    "types": ["codeceptjs", "jest"],
+    "baseUrl": ".",
+    "paths": {
+      "main/*": ["../main/*"]
+    }
   }
 }

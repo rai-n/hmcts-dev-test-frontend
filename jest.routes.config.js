@@ -4,6 +4,12 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   testEnvironment: 'node',
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.ts?$': ['ts-jest', {
+      tsconfig: '<rootDir>/src/test/tsconfig.json',
+      // ignore missing type definition errors
+      diagnostics: {
+        ignoreCodes: [2593, 2304, 7016]
+      }
+    }],
   },
 };
